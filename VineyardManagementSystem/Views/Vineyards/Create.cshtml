@@ -1,0 +1,53 @@
+﻿@model VineyardManagementSystem.Models.Vineyard
+
+@{
+    ViewData["Title"] = "Ново Лозе";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 border p-4 shadow-sm bg-light rounded">
+            <h2 class="text-success mb-4 text-center border-bottom pb-2">Регистрация на нов масив</h2>
+            
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="mb-3">
+                    <label asp-for="Name" class="form-label font-weight-bold"></label>
+                    <input asp-for="Name" class="form-control" placeholder="напр. Горната локва" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Location" class="form-label font-weight-bold"></label>
+                    <input asp-for="Location" class="form-control" placeholder="напр. Село с. Брестовица" />
+                    <span asp-validation-for="Location" class="text-danger"></span>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="Size" class="form-label font-weight-bold"></label>
+                        <input asp-for="Size" type="number" step="0.01" class="form-control" />
+                        <span asp-validation-for="Size" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="PlantingDate" class="form-label font-weight-bold"></label>
+                        <input asp-for="PlantingDate" type="date" class="form-control" />
+                        <span asp-validation-for="PlantingDate" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="d-grid gap-2 mt-4">
+                    <button type="submit" class="btn btn-success btn-lg">Запиши в системата</button>
+                    <a asp-action="Index" class="btn btn-outline-secondary">Назад към списъка</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

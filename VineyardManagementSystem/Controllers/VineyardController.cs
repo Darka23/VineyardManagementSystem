@@ -26,8 +26,15 @@ public class VineyardsController : Controller
     {
         if (ModelState.IsValid)
         {
-            await _service.CreateVineyardAsync(vineyard);
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                await _service.CreateVineyardAsync(vineyard);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+            }
         }
         return View(vineyard);
     }

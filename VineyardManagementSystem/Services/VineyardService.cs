@@ -14,6 +14,16 @@ namespace VineyardManagementSystem.Services
 
         public async Task CreateVineyardAsync(Vineyard vineyard)
         {
+            if (vineyard.PlantingDate > DateTime.Now)
+            {
+                throw new Exception("Датата на засаждане не може да бъде в бъдещето!");
+            }
+
+            if (vineyard.Size < 0.1)
+            {
+                throw new Exception("Площта на масива трябва да е поне 0.1 дка.");
+            }
+
             await _repo.AddAsync(vineyard);
         }
 
