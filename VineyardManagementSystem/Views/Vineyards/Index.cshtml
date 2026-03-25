@@ -1,0 +1,38 @@
+﻿@model IEnumerable<VineyardManagementSystem.Models.Vineyard>
+
+@{
+    ViewData["Title"] = "Моите Лозови Масиви";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-primary"><i class="bi bi-tree"></i> Списък с Лозови Масиви</h2>
+        <a asp-action="Create" class="btn btn-success">Добави нов масив</a>
+    </div>
+
+    <table class="table table-hover shadow-sm">
+        <thead class="table-dark">
+            <tr>
+                <th>Име</th>
+                <th>Местоположение</th>
+                <th>Площ (дка)</th>
+                <th>Дата на засаждане</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.Location</td>
+                    <td>@item.Size</td>
+                    <td>@item.PlantingDate.ToShortDateString()</td>
+                    <td>
+                        <a class="btn btn-sm btn-outline-info">Редактирай</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

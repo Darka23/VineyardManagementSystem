@@ -1,32 +1,45 @@
-﻿using VineyardManagementSystem.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using VineyardManagementSystem.Data;
+using VineyardManagementSystem.Models;
 
 namespace VineyardManagementSystem.Repositories
 {
     public class VineyardRepository : IVineyardRepository
     {
-        public Task AddAsync(Vineyard vineyard)
+        private readonly ApplicationDbContext _context;
+
+        public VineyardRepository(ApplicationDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
         }
 
-        public Task DeleteAsync(int id)
+        public async Task AddAsync(Vineyard vineyard)
         {
-            throw new NotImplementedException();
+            await _context.Vineyards.AddAsync(vineyard);
+            await _context.SaveChangesAsync();
         }
 
-        public Task<IEnumerable<Vineyard>> GetAllAsync()
+        public async Task DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            var vineyard = await _context.Vineyards.FindAsync(id);
+            if (vineyard != null)
+            {
+                _context.Vineyards.Remove(vineyard);
+                await _context.SaveChangesAsync();
+            }
         }
 
-        public Task<Vineyard> GetByIdAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<IEnumerable<Vineyard>> GetAllAsync()
+            => await _context.Vineyards.ToListAsync();
 
-        public Task UpdateAsync(Vineyard vineyard)
+
+        public async Task<Vineyard> GetByIdAsync(int id)
+            => await _context.Vineyards.FindAsync(id);
+
+        public async Task UpdateAsync(Vineyard vineyard)
         {
-            throw new NotImplementedException();
+            _context.Vineyards.Update(vineyard);
+            await _context.SaveChangesAsync();
         }
     }
 }
