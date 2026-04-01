@@ -17,7 +17,10 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IVineyardRepository, VineyardRepository>();
+builder.Services.AddScoped<IGrapeVarietyRepository, GrapeVarietyRepository>();
+
 builder.Services.AddScoped<IVineyardService, VineyardService>();
+builder.Services.AddScoped<IGrapeVarietyService, GrapeVarietyService>();
 
 var app = builder.Build();
 

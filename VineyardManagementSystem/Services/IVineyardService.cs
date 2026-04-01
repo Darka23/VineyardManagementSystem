@@ -6,13 +6,13 @@ namespace VineyardManagementSystem.Services
     {
         Task<IEnumerable<Vineyard>> GetVineyardsListAsync();
 
-        public Task GetVineyardByIdAsync(int id);
+        public Task<Vineyard?> GetVineyardByIdAsync(int id);
 
         public Task CreateVineyardAsync(Vineyard vineyard);
 
-        public Task UpdateVineyard(Vineyard vineyard);
+        public Task UpdateVineyardAsync(Vineyard vineyard);
 
-        public Task DeleteVineyard(int id);
+        public Task DeleteVineyardAsync(int id);
 
     }
 }

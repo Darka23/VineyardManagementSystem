@@ -1,0 +1,30 @@
+﻿@using VineyardManagementSystem.Enums
+@model VineyardManagementSystem.Models.GrapeVariety
+
+<div class="container mt-5">
+    <div class="col-md-6 mx-auto card p-4 shadow">
+        <h3 class="text-center">Добавяне на сорт</h3>
+        <hr />
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="mb-3">
+                <label asp-for="Name" class="form-label font-weight-bold">Име на сорта</label>
+                <input asp-for="Name" class="form-control" placeholder="напр. Мавруд" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Color" class="form-label font-weight-bold">Тип/Цвят</label>
+                <select asp-for="Color" class="form-control" asp-items="Html.GetEnumSelectList<GrapeColor>()">
+                    <option value="">-- Изберете цвят --</option>
+                </select>
+                <span asp-validation-for="Color" class="text-danger"></span>
+            </div>
+
+            <div class="d-grid">
+                <button type="submit" class="btn btn-success">Запази сорта</button>
+            </div>
+        </form>
+    </div>
+</div>

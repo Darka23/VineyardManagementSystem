@@ -1,0 +1,63 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using VineyardManagementSystem.Models;
+using VineyardManagementSystem.Services;
+
+namespace VineyardManagementSystem.Controllers
+{
+    public class GrapeVarietiesController : Controller
+    {
+        private readonly IGrapeVarietyService _service;
+
+        public GrapeVarietiesController(IGrapeVarietyService service)
+        {
+            _service = service;
+        }
+
+
+        public IActionResult Index()
+        {
+
+            var varieties = _service.GetAllGrapeVarietiesAsync().Result;
+            return View(varieties);
+        }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(GrapeVariety variety)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    await _service.CreateGrapeVarietyAsync(variety);
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", ex.Message);
+                }
+            }
+            return View(variety);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                await _service.DeleteGrapeVarietyAsync(id);
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = ex.Message;
+            }
+            return RedirectToAction(nameof(Index));
+        }
+    }
+}
