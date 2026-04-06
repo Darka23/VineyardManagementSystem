@@ -1,8 +1,49 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Добре дошли";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container mt-5">
+    <div class="p-5 mb-4 bg-light rounded-3 shadow-sm border"
+         style="background: linear-gradient(rgba(255,255,255,0.8), rgba(255,255,255,0.8)), url('https://images.unsplash.com/photo-1504275107627-0c2ba7a43dba?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'); background-size: cover;">
+        <div class="container-fluid py-5 text-center">
+            <h1 class="display-5 fw-bold text-dark">Система за управление на лозови масиви</h1>
+            <p class="col-md-8 fs-4 mx-auto text-muted">
+                Професионално проследяване на сортове, климатични данни и дейности в реално време.
+            </p>
+            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mt-4">
+                <a asp-controller="Vineyards" asp-action="Index" class="btn btn-success btn-lg px-4 gap-3">Към масивите</a>
+                <a asp-controller="GrapeVarieties" asp-action="Index" class="btn btn-outline-secondary btn-lg px-4">Разгледай сортовете</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row text-center mt-5">
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 border-0 shadow-sm p-3">
+                <div class="card-body">
+                    <i class="bi bi-geo-alt text-success fs-1"></i>
+                    <h5 class="card-title mt-3">Локации</h5>
+                    <p class="card-text text-muted">Управлявайте вашите парцели и тяхното географско разположение.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 border-0 shadow-sm p-3">
+                <div class="card-body">
+                    <i class="bi bi-cloud-sun text-primary fs-1"></i>
+                    <h5 class="card-title mt-3">Климат</h5>
+                    <p class="card-text text-muted">Следете температурните промени и валежите за всеки масив.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 border-0 shadow-sm p-3">
+                <div class="card-body">
+                    <i class="bi bi-clipboard-check text-warning fs-1"></i>
+                    <h5 class="card-title mt-3">Дейности</h5>
+                    <p class="card-text text-muted">Дневник на всички пръскания, торения и резитби.</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

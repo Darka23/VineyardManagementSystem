@@ -59,5 +59,30 @@ namespace VineyardManagementSystem.Controllers
             }
             return RedirectToAction(nameof(Index));
         }
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            var variety = await _service.GetGrapeVarietyByIdAsync(id);
+            if (variety == null) return NotFound();
+            return View(variety);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(GrapeVariety variety)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    await _service.UpdateGrapeVarietyAsync(variety);
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", ex.Message);
+                }
+            }
+            return View(variety);
+        }
     }
 }

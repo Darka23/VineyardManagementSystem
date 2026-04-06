@@ -29,7 +29,7 @@ namespace VineyardManagementSystem.Repositories
         }
 
         public async Task<IEnumerable<GrapeVariety>> GetAllAsync()
-            => await _context.GrapeVarieties.ToListAsync();
+            => await _context.GrapeVarieties.AsNoTracking().ToListAsync();
 
         public async Task<GrapeVariety?> GetByIdAsync(int id)
             => await _context.GrapeVarieties.FindAsync(id);

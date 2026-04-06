@@ -30,10 +30,10 @@ namespace VineyardManagementSystem.Repositories
         }
 
         public async Task<IEnumerable<Vineyard>> GetAllAsync()
-            => await _context.Vineyards.ToListAsync();
+            => await _context.Vineyards.AsNoTracking().ToListAsync();
 
 
-        public async Task<Vineyard> GetByIdAsync(int id)
+        public async Task<Vineyard?> GetByIdAsync(int id)
             => await _context.Vineyards.FindAsync(id);
 
         public async Task UpdateAsync(Vineyard vineyard)

@@ -29,3 +29,33 @@ body {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
 }
+.btn-vine {
+    background-color: #800020;
+    color: white;
+}
+
+    .btn-vine:hover {
+        background-color: #600018;
+        color: white;
+    }
+
+.navbar-brand {
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.nav-link:hover {
+    color: #28a745 !important;
+    transition: 0.3s;
+}
+
+
+.navbar-nav .nav-link {
+    transition: all 0.3s ease;
+}
+
+
+    .navbar-nav .nav-link:hover {
+        color: #28a745 !important;
+        text-decoration: underline;
+    }

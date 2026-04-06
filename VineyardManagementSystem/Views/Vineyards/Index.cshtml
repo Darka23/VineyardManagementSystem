@@ -29,7 +29,17 @@
                     <td>@item.Size</td>
                     <td>@item.PlantingDate.ToShortDateString()</td>
                     <td>
-                        <a class="btn btn-sm btn-outline-info">Редактирай</a>
+                        <div class="d-flex gap-2">
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-pencil"></i> Редактирай
+                            </a>
+        
+                            <form asp-action="Delete" asp-route-id="@item.Id" method="post" onsubmit="return confirm('Сигурни ли сте?')">
+                                <button type="submit" class="btn btn-sm btn-outline-danger">
+                                    <i class="bi bi-trash"></i> Изтрий
+                                </button>
+                            </form>
+                        </div>
                     </td>
                 </tr>
             }
