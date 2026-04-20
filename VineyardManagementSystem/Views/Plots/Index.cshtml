@@ -1,0 +1,59 @@
+﻿@using VineyardManagementSystem.Enums
+@model IEnumerable<VineyardManagementSystem.Models.Plot>
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="bi bi-grid-3x3"></i> Управление на Парцели</h2>
+        <a asp-action="Create" class="btn btn-success"><i class="bi bi-plus-circle"></i> Нов Парцел</a>
+    </div>
+
+    <div class="table-responsive shadow-sm">
+        <table style="margin-bottom:5px;" class="table table-hover bg-white"> @* margin *@
+            <thead class="table-dark">
+                <tr>
+                    <th>Код / Име</th>
+                    <th>Лозов масив</th>
+                    <th>Сорт</th>
+                    <th>Площ (дка)</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="fw-bold">@item.InternalCode</td>
+                        <td>@item.Vineyard?.Name</td>
+                        <td>
+                            @{
+                                var badgeClass = item.GrapeVariety?.Color switch
+                                {
+                                    GrapeColor.Червено => "bg-danger",
+                                    GrapeColor.Бяло => "bg-warning text-dark",
+                                    GrapeColor.Розе => "bg-secondary", //bg-info
+                                    _ => "bg-dark"
+                                };
+                            }
+                            <span class="badge @badgeClass shadow-sm">@item.GrapeVariety?.Name</span>
+                        </td>
+                        <td>@item.AreaSize</td>
+                        <td>
+                            <div class="d-flex gap-2">
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-pencil"></i>Редактирай
+                                </a>
+        
+                                <form asp-action="Delete" asp-route-id="@item.Id" method="post" onsubmit="return confirm('Сигурни ли сте?')">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">
+                                        <i class="bi bi-trash"></i>Изтрий
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

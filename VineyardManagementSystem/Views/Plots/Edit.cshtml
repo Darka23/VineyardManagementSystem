@@ -1,0 +1,41 @@
+﻿@model VineyardManagementSystem.ViewModels.PlotFormViewModel
+
+<div class="container mt-5">
+    <div class="col-md-6 mx-auto card shadow p-4 border-primary">
+        <h3 class="text-center mb-4 text-primary"><i class="bi bi-pencil-square"></i> Редакция на парцел</h3>
+        <hr />
+        
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <input type="hidden" asp-for="Plot.Id" />
+
+            <div class="mb-3">
+                <label asp-for="Plot.InternalCode" class="form-label fw-bold">Код на парцела</label>
+                <input asp-for="Plot.InternalCode" class="form-control" />
+                <span asp-validation-for="Plot.InternalCode" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Лозов масив</label>
+                <select asp-for="Plot.VineyardId" class="form-select" asp-items="Model.VineyardList"></select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Сорт грозде</label>
+                <select asp-for="Plot.GrapeVarietyId" class="form-select" asp-items="Model.VarietyList"></select>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Plot.AreaSize" class="form-label fw-bold">Площ (дка)</label>
+                <input asp-for="Plot.AreaSize" class="form-control" type="number" step="0.1" />
+                <span asp-validation-for="Plot.AreaSize" class="text-danger"></span>
+            </div>
+
+            <div class="d-flex gap-2 mt-4">
+                <button type="submit" class="btn btn-primary flex-grow-1">Запази промените</button>
+                <a asp-action="Index" class="btn btn-outline-secondary">Отказ</a>
+            </div>
+        </form>
+    </div>
+</div>

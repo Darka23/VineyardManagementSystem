@@ -12,7 +12,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
@@ -21,6 +21,9 @@ builder.Services.AddScoped<IGrapeVarietyRepository, GrapeVarietyRepository>();
 
 builder.Services.AddScoped<IVineyardService, VineyardService>();
 builder.Services.AddScoped<IGrapeVarietyService, GrapeVarietyService>();
+
+builder.Services.AddScoped<IPlotRepository, PlotRepository>();
+builder.Services.AddScoped<IPlotService, PlotService>();
 
 var app = builder.Build();
 
