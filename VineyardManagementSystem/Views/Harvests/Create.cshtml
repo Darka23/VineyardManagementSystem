@@ -1,0 +1,42 @@
+﻿@model VineyardManagementSystem.ViewModels.HarvestFormViewModel
+
+<div class="container mt-5">
+    <div class="col-md-6 mx-auto card shadow p-4">
+        <h3 class="text-center mb-4">Запис на гроздобер</h3>
+        <form asp-action="@(ViewContext.RouteData.Values["action"])">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @if (Model.Harvest.Id != 0)
+            {
+                <input type="hidden" asp-for="Harvest.Id" />
+            }
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Парцел</label>
+                <select asp-for="Harvest.PlotId" class="form-select" asp-items="Model.PlotList">
+                    <option value="">-- Изберете парцел --</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Дата на гроздобер</label>
+                <input asp-for="Harvest.HarvestDate" class="form-control" type="date" />
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label fw-bold">Количество (кг)</label>
+                    <input asp-for="Harvest.QuantityKG" class="form-control" type="number" step="0.1" />
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label fw-bold">Захарност (%)</label>
+                    <input asp-for="Harvest.SugarContent" class="form-control" type="number" step="0.1" />
+                </div>
+            </div>
+
+            <div class="d-grid gap-2 mt-4">
+                <button type="submit" class="btn btn-warning btn-lg fw-bold">Запази запис</button>
+                <a asp-action="Index" class="btn btn-link text-secondary">Назад към списъка</a>
+            </div>
+        </form>
+    </div>
+</div>

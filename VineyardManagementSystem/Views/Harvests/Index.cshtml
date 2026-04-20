@@ -1,0 +1,45 @@
+﻿@model IEnumerable<VineyardManagementSystem.Models.Harvest>
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="bi bi-basket text-warning"></i> Дневник на Гроздобера</h2>
+        <a asp-action="Create" class="btn btn-warning fw-bold text-dark">+ Нов запис</a>
+    </div>
+
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card h-100 shadow-sm border-0 border-top border-4 border-warning">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <div>
+                                <h5 class="card-title mb-0">@item.Plot?.InternalCode</h5>
+                                <small class="text-muted">@item.Plot?.Vineyard?.Name</small>
+                            </div>
+                            <span class="badge bg-light text-dark border">@item.HarvestDate.ToShortDateString()</span>
+                        </div>
+                        
+                        <div class="row text-center bg-light rounded py-2 mb-3">
+                            <div class="col-6 border-end">
+                                <div class="small text-muted text-uppercase">Количество</div>
+                                <div class="fw-bold fs-5">@item.QuantityKG кг</div>
+                            </div>
+                            <div class="col-6">
+                                <div class="small text-muted text-uppercase">Захарност</div>
+                                <div class="fw-bold fs-5 text-primary">@item.SugarContent%</div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary w-100">Редактирай</a>
+                            <form asp-action="Delete" asp-route-id="@item.Id" method="post" class="w-100" onsubmit="return confirm('Изтриване на записа?')">
+                                <button type="submit" class="btn btn-sm btn-outline-danger w-100">Изтрий</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

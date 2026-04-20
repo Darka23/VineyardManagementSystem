@@ -31,6 +31,9 @@ builder.Services.AddScoped<IClimateService, ClimateService>();
 builder.Services.AddScoped<IFieldActivityRepository, FieldActivityRepository>();
 builder.Services.AddScoped<IFieldActivityService, FieldActivityService>();
 
+builder.Services.AddScoped<IHarvestRepository, HarvestRepository>();
+builder.Services.AddScoped<IHarvestService, HarvestService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
