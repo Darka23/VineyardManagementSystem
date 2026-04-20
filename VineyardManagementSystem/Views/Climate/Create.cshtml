@@ -1,0 +1,65 @@
+﻿@model VineyardManagementSystem.ViewModels.ClimateFormViewModel
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow border-0">
+                <div class="card-header bg-primary text-white text-center py-3">
+                    <h4 class="mb-0"><i class="bi bi-cloud-plus"></i> Нов климатичен запис</h4>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Лозов масив</label>
+                            <select asp-for="ClimateLog.VineyardId" class="form-select" asp-items="Model.VineyardList">
+                                <option value="">-- Изберете масив --</option>
+                            </select>
+                            <span asp-validation-for="ClimateLog.VineyardId" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="ClimateLog.LogDate" class="form-label fw-bold"></label>
+                            <input asp-for="ClimateLog.LogDate" class="form-control" type="date" />
+                            <span asp-validation-for="ClimateLog.LogDate" class="text-danger"></span>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="ClimateLog.Temperature" class="form-label fw-bold"></label>
+                                <div class="input-group">
+                                    <input asp-for="ClimateLog.Temperature" class="form-control" type="number" step="0.1" />
+                                    <span class="input-group-text">°C</span>
+                                </div>
+                                <span asp-validation-for="ClimateLog.Temperature" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="ClimateLog.Humidity" class="form-label fw-bold"></label>
+                                <div class="input-group">
+                                    <input asp-for="ClimateLog.Humidity" class="form-control" type="number" step="0.1" />
+                                    <span class="input-group-text">%</span>
+                                </div>
+                                <span asp-validation-for="ClimateLog.Humidity" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="ClimateLog.Rainfall" class="form-label fw-bold"></label>
+                            <div class="input-group">
+                                <input asp-for="ClimateLog.Rainfall" class="form-control" type="number" step="0.1" />
+                                <span class="input-group-text">mm</span>
+                            </div>
+                            <span asp-validation-for="ClimateLog.Rainfall" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-success btn-lg">Запиши данните</button>
+                            <a asp-action="Index" class="btn btn-link text-secondary">Отказ</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

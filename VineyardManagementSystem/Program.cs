@@ -25,6 +25,9 @@ builder.Services.AddScoped<IGrapeVarietyService, GrapeVarietyService>();
 builder.Services.AddScoped<IPlotRepository, PlotRepository>();
 builder.Services.AddScoped<IPlotService, PlotService>();
 
+builder.Services.AddScoped<IClimateRepository, ClimateRepository>();
+builder.Services.AddScoped<IClimateService, ClimateService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
