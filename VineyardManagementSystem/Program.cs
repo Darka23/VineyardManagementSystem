@@ -28,6 +28,9 @@ builder.Services.AddScoped<IPlotService, PlotService>();
 builder.Services.AddScoped<IClimateRepository, ClimateRepository>();
 builder.Services.AddScoped<IClimateService, ClimateService>();
 
+builder.Services.AddScoped<IFieldActivityRepository, FieldActivityRepository>();
+builder.Services.AddScoped<IFieldActivityService, FieldActivityService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
