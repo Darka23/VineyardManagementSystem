@@ -1,4 +1,6 @@
-﻿@{
+﻿@model VineyardManagementSystem.ViewModels.DashboardViewModel
+
+@{
     ViewData["Title"] = "Добре дошли";
 }
 
@@ -6,42 +8,51 @@
     <div class="p-5 mb-4 bg-light rounded-3 shadow-sm border"
          style="background: linear-gradient(rgba(255,255,255,0.8), rgba(255,255,255,0.8)), url('https://images.unsplash.com/photo-1504275107627-0c2ba7a43dba?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'); background-size: cover;">
         <div class="container-fluid py-5 text-center">
-            <h1 class="display-5 fw-bold text-dark">Система за управление на лозови масиви</h1>
+            <h1 class="display-5 fw-bold text-dark">Система за управление на лозя</h1>
             <p class="col-md-8 fs-4 mx-auto text-muted">
-                Професионално проследяване на сортове, климатични данни и дейности в реално време.
+                Професионално проследяване на реколтата и дейностите в реално време.
             </p>
             <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mt-4">
-                <a asp-controller="Vineyards" asp-action="Index" class="btn btn-success btn-lg px-4 gap-3">Към масивите</a>
-                <a asp-controller="GrapeVarieties" asp-action="Index" class="btn btn-outline-secondary btn-lg px-4">Разгледай сортовете</a>
+                <a asp-controller="Vineyards" asp-action="Index" class="btn btn-success btn-lg px-4 gap-3 shadow">Към масивите</a>
+                <a asp-controller="Harvests" asp-action="Index" class="btn btn-warning btn-lg px-4 shadow text-dark">Резултати от гроздобера</a>
             </div>
         </div>
     </div>
 
     <div class="row text-center mt-5">
-        <div class="col-md-4 mb-4">
-            <div class="card h-100 border-0 shadow-sm p-3">
+        <div class="col-md-3 mb-4">
+            <div class="card h-100 border-0 shadow-sm p-3 border-top border-4 border-success">
                 <div class="card-body">
-                    <i class="bi bi-geo-alt text-success fs-1"></i>
-                    <h5 class="card-title mt-3">Локации</h5>
-                    <p class="card-text text-muted">Управлявайте вашите парцели и тяхното географско разположение.</p>
+                    <i class="bi bi-grid-3x3 text-success fs-1"></i>
+                    <h3 class="fw-bold mt-2">@Model.TotalPlots</h3>
+                    <p class="text-muted text-uppercase small">Активни парцела</p>
                 </div>
             </div>
         </div>
-        <div class="col-md-4 mb-4">
-            <div class="card h-100 border-0 shadow-sm p-3">
+        <div class="col-md-3 mb-4">
+            <div class="card h-100 border-0 shadow-sm p-3 border-top border-4 border-primary">
                 <div class="card-body">
-                    <i class="bi bi-cloud-sun text-primary fs-1"></i>
-                    <h5 class="card-title mt-3">Климат</h5>
-                    <p class="card-text text-muted">Следете температурните промени и валежите за всеки масив.</p>
+                    <i class="bi bi-thermometer-half text-primary fs-1"></i>
+                    <h3 class="fw-bold mt-2">@Model.LatestTemperature°C</h3>
+                    <p class="text-muted text-uppercase small">Последна температура</p>
                 </div>
             </div>
         </div>
-        <div class="col-md-4 mb-4">
-            <div class="card h-100 border-0 shadow-sm p-3">
+        <div class="col-md-3 mb-4">
+            <div class="card h-100 border-0 shadow-sm p-3 border-top border-4 border-danger">
                 <div class="card-body">
-                    <i class="bi bi-clipboard-check text-warning fs-1"></i>
-                    <h5 class="card-title mt-3">Дейности</h5>
-                    <p class="card-text text-muted">Дневник на всички пръскания, торения и резитби.</p>
+                    <i class="bi bi-cash-stack text-danger fs-1"></i>
+                    <h3 class="fw-bold mt-2">@Model.TotalCosts.ToString("N2") лв.</h3>
+                    <p class="text-muted text-uppercase small">Общи разходи</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card h-100 border-0 shadow-sm p-3 border-top border-4 border-warning">
+                <div class="card-body">
+                    <i class="bi bi-basket text-warning fs-1"></i>
+                    <h3 class="fw-bold mt-2">@Model.TotalHarvestKG.ToString("N0") кг</h3>
+                    <p class="text-muted text-uppercase small">Набрано грозде</p>
                 </div>
             </div>
         </div>

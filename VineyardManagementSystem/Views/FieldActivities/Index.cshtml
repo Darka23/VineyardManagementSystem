@@ -61,14 +61,12 @@
 
 @section Scripts {
     <script>
-        // Пазим посоките: -1 за низходящо (по подразбиране за дата и цена)
         const activitySortDirections = { date: -1, cost: -1, type: 1 };
 
         function sortActivities(criteria) {
             const container = document.getElementById('activityContainer');
             const cards = Array.from(container.getElementsByClassName('sortable-activity'));
 
-            // Обръщаме посоката
             activitySortDirections[criteria] *= -1;
             const direction = activitySortDirections[criteria];
 
@@ -91,11 +89,9 @@
                 return 0;
             });
 
-            // Обновяваме екрана
             container.innerHTML = '';
             cards.forEach(card => container.appendChild(card));
 
-            // Обновяваме иконите и стила на бутоните
             updateActivityUI(criteria, direction);
         }
 
