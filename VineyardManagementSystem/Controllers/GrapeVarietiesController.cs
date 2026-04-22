@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using VineyardManagementSystem.Models;
 using VineyardManagementSystem.Services;
 
 namespace VineyardManagementSystem.Controllers
 {
+    [Authorize]
     public class GrapeVarietiesController : Controller
     {
         private readonly IGrapeVarietyService _service;

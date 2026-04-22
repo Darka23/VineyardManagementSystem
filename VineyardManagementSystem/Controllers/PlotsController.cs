@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using VineyardManagementSystem.Models;
 using VineyardManagementSystem.Services;
@@ -6,6 +7,7 @@ using VineyardManagementSystem.ViewModels;
 
 namespace VineyardManagementSystem.Controllers
 {
+    [Authorize]
     public class PlotsController : Controller
     {
         private readonly IPlotService _plotService;

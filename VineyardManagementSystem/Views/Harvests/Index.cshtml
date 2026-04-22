@@ -3,13 +3,35 @@
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2><i class="bi bi-basket text-warning"></i> Дневник на Гроздобера</h2>
-        <a asp-action="Create" class="btn btn-warning fw-bold text-dark">+ Нов запис</a>
+        <div class="d-flex gap-2">
+            <div class="mb-4 d-flex justify-content-end align-items-center gap-2">
+                <span class="text-muted small fw-bold text-uppercase">Сортиране:</span>
+                <div class="btn-group shadow-sm" role="group">
+                    <button id="btn-date" class="btn btn-sm btn-outline-warning text-dark active-sort" onclick="sortCards('date')">
+                        Дата <i class="bi bi-arrow-down"></i>
+                    </button>
+                    <button id="btn-quantity" class="btn btn-sm btn-outline-warning text-dark" onclick="sortCards('quantity')">
+                        Количество <i></i>
+                    </button>
+                    <button id="btn-sugar" class="btn btn-sm btn-outline-warning text-dark" onclick="sortCards('sugar')">
+                        Захарност <i></i>
+                    </button>
+                </div>
+            </div>
+            <a asp-action="Create" class="btn btn-warning fw-bold text-dark shadow-sm">
+                <i class="bi bi-plus-circle"></i> Нов запис
+            </a>
+        </div>
     </div>
 
-    <div class="row">
+    <div class="row" id="harvestContainer">
         @foreach (var item in Model)
         {
-            <div class="col-md-6 col-lg-4 mb-4">
+            <div class="col-md-6 col-lg-4 mb-4 sortable-card"
+                 data-date="@item.HarvestDate.ToString("yyyyMMdd")"
+                 data-quantity="@item.QuantityKG"
+                 data-sugar="@item.SugarContent">
+                
                 <div class="card h-100 shadow-sm border-0 border-top border-4 border-warning">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-start mb-3">
@@ -17,24 +39,30 @@
                                 <h5 class="card-title mb-0">@item.Plot?.InternalCode</h5>
                                 <small class="text-muted">@item.Plot?.Vineyard?.Name</small>
                             </div>
-                            <span class="badge bg-light text-dark border">@item.HarvestDate.ToShortDateString()</span>
+                            <span class="badge bg-light text-dark border">
+                                @item.HarvestDate.ToShortDateString()
+                            </span>
                         </div>
                         
-                        <div class="row text-center bg-light rounded py-2 mb-3">
+                        <div class="row text-center bg-light rounded py-2 mb-3 mx-0">
                             <div class="col-6 border-end">
-                                <div class="small text-muted text-uppercase">Количество</div>
-                                <div class="fw-bold fs-5">@item.QuantityKG кг</div>
+                                <div class="small text-muted text-uppercase" style="font-size: 0.7rem;">Количество</div>
+                                <div class="fw-bold fs-5 text-dark">@item.QuantityKG кг</div>
                             </div>
                             <div class="col-6">
-                                <div class="small text-muted text-uppercase">Захарност</div>
+                                <div class="small text-muted text-uppercase" style="font-size: 0.7rem;">Захарност</div>
                                 <div class="fw-bold fs-5 text-primary">@item.SugarContent%</div>
                             </div>
                         </div>
 
                         <div class="d-flex gap-2">
-                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary w-100">Редактирай</a>
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary w-100">
+                                <i class="bi bi-pencil"></i> Редактирай
+                            </a>
                             <form asp-action="Delete" asp-route-id="@item.Id" method="post" class="w-100" onsubmit="return confirm('Изтриване на записа?')">
-                                <button type="submit" class="btn btn-sm btn-outline-danger w-100">Изтрий</button>
+                                <button type="submit" class="btn btn-sm btn-outline-danger w-100">
+                                    <i class="bi bi-trash"></i> Изтрий
+                                </button>
                             </form>
                         </div>
                     </div>
@@ -43,3 +71,57 @@
         }
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        const sortDirections = { date: -1, quantity: 1, sugar: 1 };
+
+        function sortCards(criteria) {
+            const container = document.getElementById('harvestContainer');
+            const cards = Array.from(container.getElementsByClassName('sortable-card'));
+            
+            sortDirections[criteria] *= -1;
+            const direction = sortDirections[criteria];
+
+            cards.sort((a, b) => {
+                let valA, valB;
+                if (criteria === 'date') {
+                    valA = a.getAttribute('data-date');
+                    valB = b.getAttribute('data-date');
+                } else {
+                    valA = parseFloat(a.getAttribute('data-' + criteria));
+                    valB = parseFloat(b.getAttribute('data-' + criteria));
+                }
+                return (valA > valB ? 1 : -1) * direction;
+            });
+
+            container.innerHTML = '';
+            cards.forEach(card => container.appendChild(card));
+
+            updateUI(criteria, direction);
+        }
+
+        function updateUI(activeCriteria, direction) {
+            const criteriaList = ['date', 'quantity', 'sugar'];
+            
+            criteriaList.forEach(c => {
+                const btn = document.getElementById('btn-' + c);
+                const icon = btn.querySelector('i');
+                
+                if (c === activeCriteria) {
+                    
+                    btn.classList.replace('btn-outline-warning', 'btn-warning');
+                    btn.classList.add('fw-bold');
+                    
+                    
+                    icon.className = direction === 1 ? "bi bi-arrow-up" : "bi bi-arrow-down";
+                } else {
+                    
+                    btn.classList.replace('btn-warning', 'btn-outline-warning');
+                    btn.classList.remove('fw-bold');
+                    icon.className = "";
+                }
+            });
+        }
+    </script>
+}

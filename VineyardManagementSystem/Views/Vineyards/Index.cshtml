@@ -7,42 +7,67 @@
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="text-primary"><i class="bi bi-tree"></i> Списък с Лозови Масиви</h2>
-        <a asp-action="Create" class="btn btn-success">Добави нов масив</a>
+        <a asp-action="Create" class="btn btn-success shadow-sm">
+            <i class="bi bi-plus-circle"></i> Добави нов масив
+        </a>
     </div>
 
-    <table class="table table-hover shadow-sm">
-        <thead class="table-dark">
-            <tr>
-                <th>Име</th>
-                <th>Местоположение</th>
-                <th>Площ (дка)</th>
-                <th>Дата на засаждане</th>
-                <th>Действия</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
+    <div class="card shadow-sm border-0 p-3">
+        <table id="vineyardTable" class="table table-hover align-middle">
+            <thead class="table-dark">
                 <tr>
-                    <td>@item.Name</td>
-                    <td>@item.Location</td>
-                    <td>@item.Size</td>
-                    <td>@item.PlantingDate.ToShortDateString()</td>
-                    <td>
-                        <div class="d-flex gap-2">
-                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary">
-                                <i class="bi bi-pencil"></i> Редактирай
-                            </a>
-        
-                            <form asp-action="Delete" asp-route-id="@item.Id" method="post" onsubmit="return confirm('Сигурни ли сте?')">
-                                <button type="submit" class="btn btn-sm btn-outline-danger">
-                                    <i class="bi bi-trash"></i> Изтрий
-                                </button>
-                            </form>
-                        </div>
-                    </td>
+                    <th>Име</th>
+                    <th>Местоположение</th>
+                    <th>Площ (дка)</th>
+                    <th>Дата на засаждане</th>
+                    <th class="text-center" style="width: 200px;">Действия</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="fw-bold">@item.Name</td>
+                        <td><i class="bi bi-geo-alt text-muted"></i> @item.Location</td>
+                        <td><span class="badge bg-light text-dark border">@item.Size дка</span></td>
+                        <td>
+                            <span class="d-none">@item.PlantingDate.ToString("yyyyMMdd")</span>
+                            @item.PlantingDate.ToShortDateString()
+                        </td>
+                        <td>
+                            <div class="d-flex gap-2 justify-content-center">
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-pencil"></i> Редактирай
+                                </a>
+            
+                                <form asp-action="Delete" asp-route-id="@item.Id" method="post" onsubmit="return confirm('Сигурни ли сте, че искате да изтриете този масив?')">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">
+                                        <i class="bi bi-trash"></i> Изтрий
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#vineyardTable').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.13.6/i18n/bg.json"
+                },
+                "pageLength": 10,
+                "responsive": true,
+                "order": [[0, "asc"]],
+                "columnDefs": [
+                    { "orderable": false, "targets": 4 }
+                ]
+            });
+        });
+    </script>
+}

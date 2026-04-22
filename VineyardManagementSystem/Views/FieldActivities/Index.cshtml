@@ -3,28 +3,52 @@
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2><i class="bi bi-tools text-primary"></i> Дневник на дейностите</h2>
-        <a asp-action="Create" class="btn btn-primary">+ Нова дейност</a>
+        
+        <div class="d-flex gap-2 align-items-center">
+            <div class="btn-group shadow-sm" role="group">
+                <button id="btn-date" class="btn btn-sm btn-outline-primary active-sort" onclick="sortActivities('date')">
+                    Дата <i class="bi bi-arrow-down"></i>
+                </button>
+                <button id="btn-cost" class="btn btn-sm btn-outline-primary" onclick="sortActivities('cost')">
+                    Цена <i></i>
+                </button>
+                <button id="btn-type" class="btn btn-sm btn-outline-primary" onclick="sortActivities('type')">
+                    Вид <i></i>
+                </button>
+            </div>
+            <a asp-action="Create" class="btn btn-primary shadow-sm">+ Нова дейност</a>
+        </div>
     </div>
 
-    <div class="row">
+    <div class="row" id="activityContainer">
         @foreach (var item in Model)
         {
-            <div class="col-md-6 col-lg-4 mb-4">
+            <div class="col-md-6 col-lg-4 mb-4 sortable-activity"
+                 data-date="@item.Date.ToString("yyyyMMdd")"
+                 data-cost="@item.Cost"
+                 data-type="@item.ActivityType">
+                
                 <div class="card h-100 shadow-sm border-0 border-top border-4 border-primary">
                     <div class="card-body">
                         <div class="d-flex justify-content-between mb-2">
                             <span class="badge bg-secondary">@item.ActivityType</span>
                             <span class="text-muted small">@item.Date.ToShortDateString()</span>
                         </div>
-                        <h5 class="card-title text-success">@item.Plot?.InternalCode</h5>
-                        <p class="text-muted mb-2"><i class="bi bi-geo-alt"></i> @item.Plot?.Vineyard?.Name</p>
-                        <p class="card-text">@item.Description</p>
-                        <div class="d-flex justify-content-between align-items-center border-top pt-3">
-                            <span class="fw-bold text-dark">Цена: @item.Cost.ToString("C2")</span>
+                        <h5 class="card-title text-success fw-bold">@item.Plot?.InternalCode</h5>
+                        <p class="text-muted mb-2 small"><i class="bi bi-geo-alt"></i> @item.Plot?.Vineyard?.Name</p>
+                        <p class="card-text text-dark" style="min-height: 50px;">@item.Description</p>
+                        
+                        <div class="d-flex justify-content-between align-items-center border-top pt-3 mt-2">
+                            <span class="fw-bold text-dark">@item.Cost.ToString("C2", System.Globalization.CultureInfo.GetCultureInfo("de-DE"))</span>
                             <div class="btn-group">
-                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
                                 <form asp-action="Delete" asp-route-id="@item.Id" method="post" onsubmit="return confirm('Изтриване?')">
-                                    <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
                                 </form>
                             </div>
                         </div>
@@ -34,3 +58,64 @@
         }
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        // Пазим посоките: -1 за низходящо (по подразбиране за дата и цена)
+        const activitySortDirections = { date: -1, cost: -1, type: 1 };
+
+        function sortActivities(criteria) {
+            const container = document.getElementById('activityContainer');
+            const cards = Array.from(container.getElementsByClassName('sortable-activity'));
+
+            // Обръщаме посоката
+            activitySortDirections[criteria] *= -1;
+            const direction = activitySortDirections[criteria];
+
+            cards.sort((a, b) => {
+                let valA, valB;
+
+                if (criteria === 'date') {
+                    valA = a.getAttribute('data-date');
+                    valB = b.getAttribute('data-date');
+                } else if (criteria === 'cost') {
+                    valA = parseFloat(a.getAttribute('data-cost'));
+                    valB = parseFloat(b.getAttribute('data-cost'));
+                } else {
+                    valA = a.getAttribute('data-type').toLowerCase();
+                    valB = b.getAttribute('data-type').toLowerCase();
+                }
+
+                if (valA > valB) return 1 * direction;
+                if (valA < valB) return -1 * direction;
+                return 0;
+            });
+
+            // Обновяваме екрана
+            container.innerHTML = '';
+            cards.forEach(card => container.appendChild(card));
+
+            // Обновяваме иконите и стила на бутоните
+            updateActivityUI(criteria, direction);
+        }
+
+        function updateActivityUI(activeCriteria, direction) {
+            ['date', 'cost', 'type'].forEach(c => {
+                const btn = document.getElementById('btn-' + c);
+                const icon = btn.querySelector('i');
+                
+                if (c === activeCriteria) {
+                    btn.classList.replace('btn-outline-primary', 'btn-primary');
+                    btn.classList.add('text-white');
+                    btn.classList.remove('text-dark');
+                    icon.className = direction === 1 ? "bi bi-arrow-up" : "bi bi-arrow-down";
+                } else {
+                    btn.classList.replace('btn-primary', 'btn-outline-primary');
+                    btn.classList.remove('text-white', 'fw-bold');
+                    btn.classList.add('text-dark');
+                    icon.className = "";
+                }
+            });
+        }
+    </script>
+}
