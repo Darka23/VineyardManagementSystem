@@ -16,11 +16,10 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 {
-
-    options.Password.RequireDigit = true; // Искаме поне една цифра
-    options.Password.RequireLowercase = false; // Ще го контролираме в нашия валидатор
-    options.Password.RequireUppercase = false; // НЕ искаме големи букви
-    options.Password.RequireNonAlphanumeric = false; // НЕ искаме символи (!@#$)
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireUppercase = false; 
+    options.Password.RequireNonAlphanumeric = false; 
     options.Password.RequiredLength = 6;
     options.SignIn.RequireConfirmedAccount = false;
 
@@ -74,5 +73,17 @@ app.MapControllerRoute(
 
 app.MapRazorPages()
    .WithStaticAssets();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<ApplicationDbContext>();
+
+    // Автоматично прилагане на миграции (по желание)
+    context.Database.Migrate(); 
+
+    // Извикване на сийдъра
+    DbSeeder.Seed(context);
+}
 
 app.Run();
