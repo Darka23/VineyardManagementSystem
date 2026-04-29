@@ -31,6 +31,7 @@ namespace VineyardManagementSystem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create(GrapeVariety variety)
         {
             if (ModelState.IsValid)
@@ -49,6 +50,7 @@ namespace VineyardManagementSystem.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             try
@@ -62,6 +64,7 @@ namespace VineyardManagementSystem.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
             var variety = await _service.GetGrapeVarietyByIdAsync(id);
@@ -70,6 +73,7 @@ namespace VineyardManagementSystem.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(GrapeVariety variety)
         {
             if (ModelState.IsValid)

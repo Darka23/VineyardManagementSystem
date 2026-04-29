@@ -7,9 +7,12 @@
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="text-primary"><i class="bi bi-tree"></i> Списък с Лозови Масиви</h2>
-        <a asp-action="Create" class="btn btn-success shadow-sm">
-            <i class="bi bi-plus-circle"></i> Добави нов масив
-        </a>
+        @if (User.IsInRole("Admin"))
+        {
+            <a asp-action="Create" class="btn btn-success shadow-sm">
+                <i class="bi bi-plus-circle"></i> Добави нов масив
+            </a>
+        }
     </div>
 
     <div class="card shadow-sm border-0 p-3">
@@ -35,17 +38,24 @@
                             @item.PlantingDate.ToShortDateString()
                         </td>
                         <td>
-                            <div class="d-flex gap-2 justify-content-center">
-                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary">
-                                    <i class="bi bi-pencil"></i> Редактирай
-                                </a>
-            
-                                <form asp-action="Delete" asp-route-id="@item.Id" method="post" onsubmit="return confirm('Сигурни ли сте, че искате да изтриете този масив?')">
-                                    <button type="submit" class="btn btn-sm btn-outline-danger">
-                                        <i class="bi bi-trash"></i> Изтрий
-                                    </button>
-                                </form>
-                            </div>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <div class="d-flex gap-2 justify-content-center">
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-pencil"></i> Редактирай
+                                    </a>
+
+                                    <form asp-action="Delete" asp-route-id="@item.Id" method="post" onsubmit="return confirm('Сигурни ли сте, че искате да изтриете този масив?')">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">
+                                            <i class="bi bi-trash"></i> Изтрий
+                                        </button>
+                                    </form>
+                                </div>
+                            }
+                            else
+                            {
+                                <i class="bi bi-x-circle text-muted"> Липсват права</i>
+                            }
                         </td>
                     </tr>
                 }

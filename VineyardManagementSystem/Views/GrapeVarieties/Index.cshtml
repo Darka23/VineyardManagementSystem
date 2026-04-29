@@ -15,10 +15,12 @@
             <button id="btn-sort-name" class="btn btn-outline-primary btn-sm shadow-sm" onclick="toggleSortName()">
                 Име <i class="bi bi-sort-alpha-down"></i>
             </button>
-
+            @if (User.IsInRole("Admin"))
+            {
             <a asp-action="Create" class="btn btn-primary shadow-sm">
                 <i class="bi bi-plus-circle"></i> Нов Сорт
             </a>
+            }
         </div>
     </div>
 
@@ -42,18 +44,20 @@
                                 @item.Color
                             </span>
                         </p>
-    
-                        <div class="d-flex gap-2 mt-3 pt-2 border-top">
-                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary flex-grow-1">
-                                <i class="bi bi-pencil"></i> Редактирай
-                            </a>
-        
-                            <form asp-action="Delete" asp-route-id="@item.Id" method="post" onsubmit="return confirm('Сигурни ли сте?')" class="flex-grow-1">
-                                <button type="submit" class="btn btn-sm btn-outline-danger w-100">
-                                    <i class="bi bi-trash"></i> Изтрий
-                                </button>
-                            </form>
-                        </div>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <div class="d-flex gap-2 mt-3 pt-2 border-top">
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary flex-grow-1">
+                                    <i class="bi bi-pencil"></i> Редактирай
+                                </a>
+
+                                <form asp-action="Delete" asp-route-id="@item.Id" method="post" onsubmit="return confirm('Сигурни ли сте?')" class="flex-grow-1">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger w-100">
+                                        <i class="bi bi-trash"></i> Изтрий
+                                    </button>
+                                </form>
+                            </div>
+                        }
                     </div>
                 </div>
             </div>

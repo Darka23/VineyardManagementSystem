@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>aspnet-VineyardManagementSystem-127872eb-1653-4d3f-a1d6-f80baeb295ac</UserSecretsId>
+    <NoWarn>$(NoWarn);NU1901</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

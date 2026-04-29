@@ -14,7 +14,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 {
     options.Password.RequireDigit = true;
     options.Password.RequireLowercase = false;
@@ -23,7 +23,10 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
     options.Password.RequiredLength = 6;
     options.SignIn.RequireConfirmedAccount = false;
 
-}).AddEntityFrameworkStores<ApplicationDbContext>();
+})
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders()
+    .AddDefaultUI();
 
 builder.Services.AddControllersWithViews();
 
@@ -74,16 +77,17 @@ app.MapControllerRoute(
 app.MapRazorPages()
    .WithStaticAssets();
 
+//Seeder
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<ApplicationDbContext>();
 
-    // Автоматично прилагане на миграции (по желание)
     context.Database.Migrate(); 
 
-    // Извикване на сийдъра
     DbSeeder.Seed(context);
+
+    await DbSeeder.SeedRolesAndAdminAsync(services);
 }
 
 app.Run();

@@ -1,12 +1,38 @@
-﻿using VineyardManagementSystem.Models;
-using VineyardManagementSystem.Enums;
+﻿using Microsoft.AspNetCore.Identity;
 using System;
 using System.Linq;
+using VineyardManagementSystem.Enums;
+using VineyardManagementSystem.Models;
 
 namespace VineyardManagementSystem.Data
 {
     public static class DbSeeder
     {
+        public static async Task SeedRolesAndAdminAsync(IServiceProvider serviceProvider)
+        {
+            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
+
+            // 1. Създаване на ролите
+            string[] roleNames = { "Admin", "User" };
+            foreach (var roleName in roleNames)
+            {
+                if (!await roleManager.RoleExistsAsync(roleName))
+                {
+                    await roleManager.CreateAsync(new IdentityRole(roleName));
+                }
+            }
+
+            // 2. Създаване на Админ
+            var adminEmail = "admin@vineyard.bg";
+            var adminUser = await userManager.FindByEmailAsync(adminEmail);
+            if (adminUser == null)
+            {
+                var admin = new IdentityUser { UserName = adminEmail, Email = adminEmail, EmailConfirmed = true };
+                await userManager.CreateAsync(admin, "admin123");
+                await userManager.AddToRoleAsync(admin, "Admin");
+            }
+        }
         public static void Seed(ApplicationDbContext context)
         {
             if (context.GrapeVarieties.Any()) return;

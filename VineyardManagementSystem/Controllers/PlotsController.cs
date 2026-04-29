@@ -27,6 +27,7 @@ namespace VineyardManagementSystem.Controllers
             return View(plots);
         }
 
+        [HttpGet]
         public async Task<IActionResult> Create()
         {
             var viewModel = new PlotFormViewModel
@@ -41,6 +42,7 @@ namespace VineyardManagementSystem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create(PlotFormViewModel viewModel)
         {
             if (ModelState.IsValid)
@@ -82,6 +84,7 @@ namespace VineyardManagementSystem.Controllers
             });
         }
 
+        [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
             var plot = await _plotService.GetPlotByIdAsync(id);
@@ -99,6 +102,7 @@ namespace VineyardManagementSystem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, PlotFormViewModel viewModel)
         {
             if (id != viewModel.Plot.Id) return NotFound();
@@ -123,6 +127,7 @@ namespace VineyardManagementSystem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             try

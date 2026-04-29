@@ -24,6 +24,7 @@ namespace VineyardManagementSystem.Controllers
         [HttpGet]
         public IActionResult Create() => View();
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Create(Vineyard vineyard)
         {
@@ -42,6 +43,7 @@ namespace VineyardManagementSystem.Controllers
             return View(vineyard);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
@@ -57,6 +59,7 @@ namespace VineyardManagementSystem.Controllers
             }
         }
 
+        [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
             var vineyard = await _service.GetVineyardByIdAsync(id);
@@ -69,6 +72,7 @@ namespace VineyardManagementSystem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, Vineyard vineyard)
         {
             if (id != vineyard.Id) return NotFound();
